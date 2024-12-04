@@ -1,0 +1,73 @@
+/* 表格基础样式 */
+.theme-arco-table-container {
+  transform-origin: left top;
+  transition: transform 0.3s ease;
+}
+
+/* 固定列样式 - 只针对数据单元格 */
+td.theme-arco-table-col-fixed-left {
+  position: sticky !important;
+  z-index: 2 !important;
+  background: #fff !important;
+}
+
+/* 表格行样式 */
+.theme-arco-table-tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* 数值列对齐 */
+.metric-column-q9uG {
+  text-align: right !important;
+}
+
+/* 控制面板样式 */
+.table-enhancer-control {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background: #fff !important;
+  padding: 12px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1) !important;
+  z-index: 9999 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.enhancer-btn {
+  padding: 6px 12px !important;
+  background: #2f54eb !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  font-size: 14px !important;
+  transition: background 0.2s !important;
+}
+
+.enhancer-btn:hover {
+  background: #1d39c4 !important;
+}
+
+.scale-control {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.scale-control input[type="range"] {
+  width: 100px !important;
+}
+
+.scale-control span {
+  min-width: 48px !important;
+  font-size: 14px !important;
+  color: #666 !important;
+}
+
+/* 展开状态样式 */
+.theme-arco-table-container.expanded {
+  margin-bottom: 40px !important;
+}
