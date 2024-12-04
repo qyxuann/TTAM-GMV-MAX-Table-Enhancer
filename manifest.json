@@ -9,8 +9,7 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.tiktok.com/*",
-        "*://*.bytedance.com/*"
+        "*://ads.tiktok.com/*"
       ],
       "js": ["content.js"],
       "css": ["styles.css"],
