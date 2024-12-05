@@ -12,9 +12,6 @@ function waitForTable() {
 function initializePlugin() {
   const targetTable = document.querySelector('.theme-arco-table-container');
   
-  // 创建控制面板
-  createControl();
-  
   // 监听表格变化
   const observer = new MutationObserver((mutations) => {
     const container = document.querySelector('.theme-arco-table-container');
@@ -27,58 +24,6 @@ function initializePlugin() {
     attributes: true,
     childList: true,
     subtree: true
-  });
-}
-
-// 创建控制面板
-function createControl() {
-  // 先移除已存在的控制面板
-  const existingControl = document.querySelector('.table-enhancer-control');
-  if (existingControl) {
-    existingControl.remove();
-  }
-
-  const control = document.createElement('div');
-  control.className = 'table-enhancer-control';
-  control.innerHTML = `
-    <button id="expandBtn" class="enhancer-btn">展开表格</button>
-    <div class="scale-control">
-      <input type="range" id="scaleSlider" min="50" max="100" value="100">
-      <span id="scaleValue">100%</span>
-    </div>
-  `;
-  
-  document.body.appendChild(control);
-  
-  // 强制设置样式
-  control.style.cssText = `
-    position: fixed !important;
-    bottom: 20px !important;
-    right: 20px !important;
-    z-index: 9999 !important;
-  `;
-  
-  // 展开按钮事件
-  document.getElementById('expandBtn').addEventListener('click', () => {
-    const container = document.querySelector('.theme-arco-table-container');
-    const isExpanded = container.classList.toggle('expanded');
-    const btn = document.getElementById('expandBtn');
-    
-    if (isExpanded) {
-      expandTable();
-      btn.textContent = '还原表格';
-    } else {
-      resetTable();
-      btn.textContent = '展开表格';
-    }
-  });
-  
-  // 缩放控制
-  document.getElementById('scaleSlider').addEventListener('input', (e) => {
-    const scale = e.target.value / 100;
-    document.getElementById('scaleValue').textContent = e.target.value + '%';
-    const container = document.querySelector('.theme-arco-table-container');
-    container.style.transform = `scale(${scale})`;
   });
 }
 
@@ -151,10 +96,32 @@ function resetTable() {
       col.style.removeProperty('background');
     }
   });
-  
-  document.getElementById('scaleSlider').value = 100;
-  document.getElementById('scaleValue').textContent = '100%';
 }
+
+// 监听来自popup的消息
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  const container = document.querySelector('.theme-arco-table-container');
+  
+  switch (request.action) {
+    case 'toggleExpand':
+      const isExpanded = container.classList.toggle('expanded');
+      if (isExpanded) {
+        expandTable();
+      } else {
+        resetTable();
+      }
+      sendResponse({ isExpanded });
+      break;
+      
+    case 'setScale':
+      const scale = request.scale / 100;
+      container.style.transform = `scale(${scale})`;
+      sendResponse({ success: true });
+      break;
+  }
+  
+  return true;
+});
 
 // 启动插件
 waitForTable();
