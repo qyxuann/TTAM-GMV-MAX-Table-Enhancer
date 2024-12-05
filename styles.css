@@ -11,6 +11,18 @@ td.theme-arco-table-col-fixed-left {
   background: #fff !important;
 }
 
+/* 固定列表头样式 - 移除背景色设置 */
+th.theme-arco-table-col-fixed-left {
+  position: sticky !important;
+  z-index: 2 !important;
+  /* 移除背景色设置，让它继承原始表头的背景色 */
+}
+
+/* 固定列最后一列的特殊处理 */
+th.theme-arco-table-col-fixed-left-last {
+  box-shadow: 6px 0 6px -4px rgba(0,0,0,0.15) !important;
+}
+
 /* 表格行样式 */
 .theme-arco-table-tr:hover {
   background-color: #f5f5f5;
@@ -24,4 +36,50 @@ td.theme-arco-table-col-fixed-left {
 /* 展开状态样式 */
 .theme-arco-table-container.expanded {
   margin-bottom: 40px !important;
+}
+
+/* 列宽调整相关样式 */
+.column-resizer {
+  position: absolute !important;
+  right: -4px !important;
+  top: 0 !important;
+  height: 100% !important;
+  width: 8px !important;
+  cursor: col-resize !important;
+  z-index: 9999 !important;
+}
+
+.column-resizer::after {
+  content: "" !important;
+  position: absolute !important;
+  right: 3px !important;
+  top: 0 !important;
+  height: 100% !important;
+  width: 2px !important;
+  background: transparent !important;
+  transition: background-color 0.2s !important;
+}
+
+.column-resizer:hover::after {
+  background: rgba(24, 144, 255, 0.5) !important;
+}
+
+/* 拖动时的状态 */
+.theme-arco-table-container.resizing {
+  cursor: col-resize !important;
+  user-select: none !important;
+}
+
+.theme-arco-table-container.resizing .column-resizer::after {
+  background: #1890ff !important;
+}
+
+/* 确保表头可以放置拖动手柄 */
+.theme-arco-table-th {
+  position: relative !important;
+}
+
+/* 固定列的特殊处理 */
+.theme-arco-table-col-fixed-left .column-resizer {
+  z-index: 10000 !important;
 }
